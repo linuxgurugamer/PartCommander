@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
     public class ModSettings
     {

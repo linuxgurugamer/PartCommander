@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
     public class PCScenario : ScenarioModule
     {

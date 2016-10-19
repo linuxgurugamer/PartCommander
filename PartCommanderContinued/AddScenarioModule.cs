@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
     [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     public class AddScenarioModule : MonoBehaviour

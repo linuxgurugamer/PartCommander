@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
 
     public static class StringExtensions

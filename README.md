@@ -7,7 +7,7 @@ GitHub: https://github.com/seanmcdougall/PartCommander
 
 INSTALLATION
 
-Copy the "PartCommander" folder and all its contents into your KSP/GameData folder.
+Copy the "PartCommanderContinued" folder and all its contents into your KSP/GameData folder.
 
 CHANGELOG
 

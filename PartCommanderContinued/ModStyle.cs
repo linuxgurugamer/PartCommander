@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
     public class ModStyle
     {
@@ -95,8 +95,8 @@ namespace PartCommander
         public GUIStyle GetToggleButtonStyle(string styleName, int width, int height, bool hover)
         {
             GUIStyle myStyle = new GUIStyle();
-            Texture2D styleOff = GetImage("PartCommander/textures/" + styleName + "_off", width, height);
-            Texture2D styleOn = GetImage("PartCommander/textures/" + styleName + "_on", width, height);
+            Texture2D styleOff = GetImage("PartCommanderContinued/textures/" + styleName + "_off", width, height);
+            Texture2D styleOn = GetImage("PartCommanderContinued/textures/" + styleName + "_on", width, height);
 
             myStyle.name = styleName + "Button";
             myStyle.padding = new RectOffset() { left = 0, right = 0, top = 0, bottom = 0 };

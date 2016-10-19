@@ -21,10 +21,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using HighlightingSystem;
+//using HighlightingSystem;
 using KSP.UI.Screens;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
 
     [KSPAddon(KSPAddon.Startup.Flight, false)]
@@ -58,7 +58,7 @@ namespace PartCommander
 
         internal string showTooltip = "";
 
-        Settings settings = new Settings("PartCommander.cfg");
+        Settings settings = new Settings("../PluginData/PartCommanderContinued.cfg");
 
         public static PartCommander Instance { get; private set; }
         public PartCommander()
@@ -118,8 +118,8 @@ namespace PartCommander
                 if (ToolbarManager.ToolbarAvailable)
                 {
                     // Create button
-                    blizzyButton = ToolbarManager.Instance.add("PartCommander", "blizzyButton");
-                    blizzyButton.TexturePath = "PartCommander/textures/blizzyToolbar";
+                    blizzyButton = ToolbarManager.Instance.add("PartCommanderContinued", "blizzyButton");
+                    blizzyButton.TexturePath = "PartCommanderContinued/textures/blizzyToolbar";
                     blizzyButton.ToolTip = "Part Commander";
                     blizzyButton.OnClick += (e) => toggleWindow();
                 }
@@ -406,7 +406,12 @@ namespace PartCommander
         {
             if (launcherButton == null && settings.useStockToolbar)
             {
-                launcherButton = ApplicationLauncher.Instance.AddModApplication(showWindow, hideWindow, null, null, null, null, ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW, modStyle.GetImage("PartCommander/textures/toolbar", 38, 38));
+                launcherButton = ApplicationLauncher.Instance.AddModApplication(
+                    showWindow, 
+                    hideWindow, 
+                    null, null, null, null, 
+                    ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
+                    modStyle.GetImage("PartCommanderContinued/textures/toolbar", 38, 38));
             }
         }
 
@@ -1040,7 +1045,44 @@ namespace PartCommander
 
         private void showEvent(Part p, bool symLock, PartModule pm, BaseEvent e, string multiEngineMode)
         {
-            if (GUILayout.Button(e.guiName))
+            GUIStyle bStyle = new GUIStyle(GUI.skin.button);
+
+            GUILayout.BeginHorizontal();
+
+
+            Color btnNrml = new Color(34f / 255f, 199f / 255f, 222f / 255f, 1);            
+            Texture2D BtnNrmlTex = new Texture2D(1, 1);            
+            BtnNrmlTex.SetPixel(0,0,btnNrml);
+            BtnNrmlTex.Apply();
+#if false
+            Color btnHover = new Color(60f / 255f, 205f / 255f, 226f / 255f, 1);
+            Texture2D BtnHoverText = new Texture2D(1, 1);
+            BtnHoverText.SetPixel(0, 0, btnHover);
+            BtnHoverText.Apply();
+
+            Color btnActive = new Color(0f / 255f, 138f / 255f, 157f / 255f, 1);
+            Texture2D BtnActiveText = new Texture2D(1, 1);
+            BtnActiveText.SetPixel(0, 0, btnActive);
+            BtnActiveText.Apply();
+#endif
+
+
+            Color oldColor = GUI.color;            
+            GUI.color = btnNrml;
+            
+#if false
+            bStyle.normal.background = BtnNrmlTex;
+
+            bStyle.onActive.background = BtnActiveText;
+            bStyle.active.background = BtnActiveText;
+            //bStyle.focused.background = BtnNrmlTex;
+            bStyle.hover.background = BtnHoverText;
+            bStyle.onHover.background = BtnHoverText;
+            //bStyle.onFocused.background = BtnNrmlTex;
+            bStyle.onNormal.background = BtnNrmlTex;
+
+#endif
+            if (GUILayout.Button("", bStyle, GUILayout.Width(50), GUILayout.Height(15)))
             {
                 e.Invoke();
                 if (symLock)
@@ -1066,6 +1108,11 @@ namespace PartCommander
                     }
                 }
             }
+            //  GUI.skin = HighLogic.Skin;
+            GUI.color = oldColor;
+            GUILayout.Label(e.guiName);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
         }
 
         // Display Resources
@@ -1074,11 +1121,11 @@ namespace PartCommander
             int resourceCount = 0;
             foreach (PartResource pr in p.Resources)
             {
-                if (pr.isActiveAndEnabled)
-                {
+                // if (pr.isActiveAndEnabled)
+//                {
                     GUILayout.Label(pr.resourceName + ": " + string.Format("{0:N2}", Math.Round(pr.amount, 2)) + " / " + string.Format("{0:N2}", pr.maxAmount));
                     resourceCount++;
-                }
+//                }
             }
             return resourceCount;
         }
@@ -1190,8 +1237,9 @@ namespace PartCommander
                 return;
             }
 
-            if (GameSettings.EDGE_HIGHLIGHTING_PPFX)
+            // if (GameSettings.EDGE_HIGHLIGHTING_PPFX)
             {
+#if false
                 Transform model = null;
                 try
                 {
@@ -1202,14 +1250,15 @@ namespace PartCommander
                     Debug.Log("[PartCommander] caught exception " + ex.Message);
                 }
                 if (model != null)
-                {
+#endif
+//                {
 
-                    Highlighter h = model.gameObject.GetComponent<Highlighter>();
-                    if (h != null)
+                    //  Highlighter h = model.gameObject.GetComponent<Highlighter>();
+                    // if (h != null)
                     {
                         if (highlight)
                         {
-                            h.ConstantOn(XKCDColors.Orange);
+                            p.highlighter.ConstantOn(XKCDColors.Orange);
                             if (!highlightedParts.Exists(x => x == p))
                             {
                                 highlightedParts.Add(p);
@@ -1217,7 +1266,7 @@ namespace PartCommander
                         }
                         else
                         {
-                            h.ConstantOff();
+                            p.highlighter.ConstantOff();
                             if (highlightedParts.Exists(x => x == p))
                             {
 
@@ -1229,6 +1278,7 @@ namespace PartCommander
                         {
                             foreach (Part symPart in p.symmetryCounterparts)
                             {
+#if false
                                 Transform symModel = null;
                                 try
                                 {
@@ -1239,14 +1289,15 @@ namespace PartCommander
                                     Debug.Log("[PartCommander] caught exception " + ex.Message);
                                 }
                                 if (symModel != null)
+#endif
                                 {
-                                    Highlighter symH = symModel.gameObject.GetComponent<Highlighter>();
-                                    if (symH != null)
+                                    //Highlighter symH = symModel.gameObject.GetComponent<Highlighter>();
+                                    //if (symH != null)
                                     {
                                         if (highlight)
                                         {
                                             // Highlight the secondary symmetrical parts in a different colour
-                                            symH.ConstantOn(XKCDColors.Yellow);
+                                            symPart.highlighter.ConstantOn(XKCDColors.Yellow);
                                             if (!highlightedParts.Exists(x => x == symPart))
                                             {
 
@@ -1255,7 +1306,7 @@ namespace PartCommander
                                         }
                                         else
                                         {
-                                            symH.ConstantOff();
+                                            symPart.highlighter.ConstantOff();
                                             if (highlightedParts.Exists(x => x == symPart))
                                             {
 
@@ -1267,8 +1318,9 @@ namespace PartCommander
                             }
                         }
                     }
-                }
+//                }
             }
+#if false
             else
             {
                 if (highlight)
@@ -1316,6 +1368,7 @@ namespace PartCommander
                     }
                 }
             }
+#endif
         }
 
         private void clearHighlighting(List<Part> ap)

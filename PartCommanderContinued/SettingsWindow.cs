@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace PartCommander
+namespace PartCommanderContinued
 {
     internal class SettingsWindow
     {
