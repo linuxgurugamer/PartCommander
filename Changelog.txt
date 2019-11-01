@@ -1,4 +1,7 @@
-ChangeLog for PartCommanderContinued
+ChangeLog
+
+1.1.6
+	Updated for KSP 1.8
 
 1.1.5.3
 	Updated AssemblyVersion.tt
