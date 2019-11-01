@@ -2,6 +2,7 @@ ChangeLog
 
 1.1.6
 	Updated for KSP 1.8
+	Replaced Unity WWW with UnityWebRequest
 
 1.1.5.3
 	Updated AssemblyVersion.tt

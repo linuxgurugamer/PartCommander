@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
+
 
 namespace PartCommanderContinued
 {
@@ -130,7 +132,7 @@ namespace PartCommanderContinued
             guiStyles["settingsButton"].fontSize = fontSize + 2;
         }
 
-        private WWW _imagetex;
+        private UnityWebRequest _imagetex;
 
         public Texture2D GetImage(String path, int width, int height)
         {
@@ -143,8 +145,8 @@ namespace PartCommanderContinued
             
             
             Log.Info("Loading image manually");
-            _imagetex = new WWW(KSPUtil.ApplicationRootPath.Replace("\\", "/") +  "/GameData/" + path + ".png");
-            Texture2D img = _imagetex.texture;
+            _imagetex = UnityWebRequest.Get(KSPUtil.ApplicationRootPath.Replace("\\", "/") +  "/GameData/" + path + ".png");
+            Texture2D img = ((DownloadHandlerTexture)_imagetex.downloadHandler).texture;
             _imagetex.Dispose();
             
             return img;
