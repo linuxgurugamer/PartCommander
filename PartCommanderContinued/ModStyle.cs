@@ -132,7 +132,7 @@ namespace PartCommanderContinued
             guiStyles["settingsButton"].fontSize = fontSize + 2;
         }
 
-        private UnityWebRequest _imagetex;
+        //private UnityWebRequest _imagetex;
 
         public Texture2D GetImage(String path, int width, int height)
         {
@@ -145,9 +145,11 @@ namespace PartCommanderContinued
             
             
             Log.Info("Loading image manually");
-            _imagetex = UnityWebRequest.Get(KSPUtil.ApplicationRootPath.Replace("\\", "/") +  "/GameData/" + path + ".png");
-            Texture2D img = ((DownloadHandlerTexture)_imagetex.downloadHandler).texture;
-            _imagetex.Dispose();
+            //_imagetex = UnityWebRequest.Get(KSPUtil.ApplicationRootPath.Replace("\\", "/") +  "/GameData/" + path + ".png");
+            //Texture2D img = ((DownloadHandlerTexture)_imagetex.downloadHandler).texture;
+            Texture2D img = new  Texture2D(2,2);
+            ToolbarControl.LoadImageFromFile(ref img, KSPUtil.ApplicationRootPath.Replace("\\", "/") +  "/GameData/" + path + ".png");
+            //_imagetex.Dispose();
             
             return img;
         }
