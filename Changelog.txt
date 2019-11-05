@@ -1,5 +1,8 @@
 ChangeLog
 
+1.1.6.1
+	Replace UnityWebRequest with ToolbarControl.LoadImageFromFile
+
 1.1.6
 	Updated for KSP 1.8
 	Replaced Unity WWW with UnityWebRequest
