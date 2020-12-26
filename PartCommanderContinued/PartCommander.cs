@@ -329,12 +329,7 @@ namespace PartCommanderContinued
                     modStyle = modStyleKSP;
                 }
             }
-
-            if (PCScenario.Instance.gameSettings.visibleWindow)
-                toolbarControl.SetTrue(false);
             
-
-
             // Make sure we have something to show
             if (visibleUI && FlightGlobals.ActiveVessel != null && currentWindow != null && PCScenario.Instance != null && PCScenario.Instance.gameSettings.visibleWindow)
             {
@@ -428,6 +423,7 @@ namespace PartCommanderContinued
         public void showWindow()  // triggered by toolbar
         {
             PCScenario.Instance.gameSettings.visibleWindow = true;
+            toolbarControl.SetTrue(false);
         }
 
         public void hideWindow() // triggered by toolbar
@@ -439,6 +435,7 @@ namespace PartCommanderContinued
                 controlsLocked = false;
                 clearHighlighting(highlightedParts);
             }
+            toolbarControl.SetFalse(false);
         }
 
         public void toggleWindow()
