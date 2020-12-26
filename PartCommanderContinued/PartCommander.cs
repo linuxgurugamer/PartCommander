@@ -1041,7 +1041,7 @@ namespace PartCommanderContinued
 
         private void showEvent(Part p, bool symLock, PartModule pm, BaseEvent e, string multiEngineMode)
         {
-            var bStyle = GUI.skin.button;
+            // var bStyle = GUI.skin.button;
 
             GUILayout.BeginHorizontal();
 
@@ -1081,7 +1081,7 @@ namespace PartCommanderContinued
             bStyle.onNormal.background = BtnNrmlTex;
 
 #endif
-            if (GUILayout.Button("", bStyle, GUILayout.Width(50), GUILayout.Height(15)))
+            if (GUILayout.Button("", /* bStyle, */  GUILayout.Width(50), GUILayout.Height(15)))
             {               
                 if (symLock)
                 {
