@@ -1,4 +1,7 @@
 ChangeLog
+1.1.6.2
+	Thanks to github user @guilucand for this fix:
+		Fix leak caused by style cloning and texture reallocation
 
 1.1.6.1
 	Replace UnityWebRequest with ToolbarControl.LoadImageFromFile
