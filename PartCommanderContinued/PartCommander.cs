@@ -329,12 +329,7 @@ namespace PartCommanderContinued
                     modStyle = modStyleKSP;
                 }
             }
-
-            if (PCScenario.Instance.gameSettings.visibleWindow)
-                toolbarControl.SetTrue(false);
             
-
-
             // Make sure we have something to show
             if (visibleUI && FlightGlobals.ActiveVessel != null && currentWindow != null && PCScenario.Instance != null && PCScenario.Instance.gameSettings.visibleWindow)
             {
@@ -423,6 +418,7 @@ namespace PartCommanderContinued
         public void showWindow()  // triggered by toolbar
         {
             PCScenario.Instance.gameSettings.visibleWindow = true;
+            toolbarControl.SetTrue(false);
         }
 
         public void hideWindow() // triggered by toolbar
@@ -434,6 +430,7 @@ namespace PartCommanderContinued
                 controlsLocked = false;
                 clearHighlighting(highlightedParts);
             }
+            toolbarControl.SetFalse(false);
         }
 
         public void toggleWindow()
@@ -1033,17 +1030,23 @@ namespace PartCommanderContinued
             }
             return eventCount;
         }
+        
+        static Color btnNrml = new Color(34f / 255f, 199f / 255f, 222f / 255f, 1);
+        static Texture2D BtnNrmlTex;
 
         private void showEvent(Part p, bool symLock, PartModule pm, BaseEvent e, string multiEngineMode)
         {
-            GUIStyle bStyle = new GUIStyle(GUI.skin.button);
+            // var bStyle = GUI.skin.button;
 
             GUILayout.BeginHorizontal();
 
 
-            Color btnNrml = new Color(34f / 255f, 199f / 255f, 222f / 255f, 1);
-            Texture2D BtnNrmlTex = new Texture2D(1, 1);
-            BtnNrmlTex.SetPixel(0, 0, btnNrml);
+            if (BtnNrmlTex == null)
+            {
+                BtnNrmlTex = new Texture2D(1, 1);
+                BtnNrmlTex.SetPixel(0, 0, btnNrml);
+            }
+
             BtnNrmlTex.Apply();
 #if false
             Color btnHover = new Color(60f / 255f, 205f / 255f, 226f / 255f, 1);
@@ -1073,7 +1076,7 @@ namespace PartCommanderContinued
             bStyle.onNormal.background = BtnNrmlTex;
 
 #endif
-            if (GUILayout.Button("", bStyle, GUILayout.Width(50), GUILayout.Height(15)))
+            if (GUILayout.Button("", /* bStyle, */  GUILayout.Width(50), GUILayout.Height(15)))
             {               
                 if (symLock)
                 {
