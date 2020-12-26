@@ -1035,17 +1035,23 @@ namespace PartCommanderContinued
             }
             return eventCount;
         }
+        
+        static Color btnNrml = new Color(34f / 255f, 199f / 255f, 222f / 255f, 1);
+        static Texture2D BtnNrmlTex;
 
         private void showEvent(Part p, bool symLock, PartModule pm, BaseEvent e, string multiEngineMode)
         {
-            GUIStyle bStyle = new GUIStyle(GUI.skin.button);
+            var bStyle = GUI.skin.button;
 
             GUILayout.BeginHorizontal();
 
 
-            Color btnNrml = new Color(34f / 255f, 199f / 255f, 222f / 255f, 1);
-            Texture2D BtnNrmlTex = new Texture2D(1, 1);
-            BtnNrmlTex.SetPixel(0, 0, btnNrml);
+            if (BtnNrmlTex == null)
+            {
+                BtnNrmlTex = new Texture2D(1, 1);
+                BtnNrmlTex.SetPixel(0, 0, btnNrml);
+            }
+
             BtnNrmlTex.Apply();
 #if false
             Color btnHover = new Color(60f / 255f, 205f / 255f, 226f / 255f, 1);
