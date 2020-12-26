@@ -338,11 +338,6 @@ namespace PartCommanderContinued
             // Make sure we have something to show
             if (visibleUI && FlightGlobals.ActiveVessel != null && currentWindow != null && PCScenario.Instance != null && PCScenario.Instance.gameSettings.visibleWindow)
             {
-#if false
-                if (PartCommander.Instance.settings.altSkin)
-                    GUI.skin = modStyleUnity.skin;
-                else
-#endif
                     GUI.skin = modStyle.skin;
                 currentWindow.windowRect = ClickThruBlocker.GUILayoutWindow(currentWindow.windowId, currentWindow.windowRect, mainWindow, "");
                 // Set the default location/size for new windows to be the same as this one
@@ -1273,140 +1268,50 @@ namespace PartCommanderContinued
                 return;
             }
 
-            // if (GameSettings.EDGE_HIGHLIGHTING_PPFX)
+            if (highlight)
             {
-#if false
-                Transform model = null;
-                try
+                p.highlighter.ConstantOn(XKCDColors.Orange);
+                if (!highlightedParts.Exists(x => x == p))
                 {
-                    model = p.FindModelTransform("model");
+                    highlightedParts.Add(p);
                 }
-                catch (Exception ex)
+            }
+            else
+            {
+                p.highlighter.ConstantOff();
+                if (highlightedParts.Exists(x => x == p))
                 {
-                    Debug.Log("[PartCommander] caught exception " + ex.Message);
-                }
-                if (model != null)
-#endif
-                //                {
 
-                //  Highlighter h = model.gameObject.GetComponent<Highlighter>();
-                // if (h != null)
+                    if (clear) highlightedParts.Remove(p);
+                }
+            }
+
+            if (symLock)
+            {
+                for (int pi = 0; pi < p.symmetryCounterparts.Count; pi++)
                 {
+                    Part symPart = p.symmetryCounterparts[pi];
                     if (highlight)
                     {
-                        p.highlighter.ConstantOn(XKCDColors.Orange);
-                        if (!highlightedParts.Exists(x => x == p))
+                        // Highlight the secondary symmetrical parts in a different colour
+                        symPart.highlighter.ConstantOn(XKCDColors.Yellow);
+                        if (!highlightedParts.Exists(x => x == symPart))
                         {
-                            highlightedParts.Add(p);
+
+                            highlightedParts.Add(symPart);
                         }
                     }
                     else
                     {
-                        p.highlighter.ConstantOff();
-                        if (highlightedParts.Exists(x => x == p))
+                        symPart.highlighter.ConstantOff();
+                        if (highlightedParts.Exists(x => x == symPart))
                         {
 
-                            if (clear) highlightedParts.Remove(p);
-                        }
-                    }
-
-                    if (symLock)
-                    {
-                        for (int pi = 0; pi < p.symmetryCounterparts.Count; pi++)
-                        //foreach (Part symPart in p.symmetryCounterparts)
-                        {
-                            Part symPart = p.symmetryCounterparts[pi];
-#if false
-                                Transform symModel = null;
-                                try
-                                {
-                                    symModel = symPart.FindModelTransform("model");
-                                }
-                                catch (Exception ex)
-                                {
-                                    Debug.Log("[PartCommander] caught exception " + ex.Message);
-                                }
-                                if (symModel != null)
-#endif
-                            {
-                                //Highlighter symH = symModel.gameObject.GetComponent<Highlighter>();
-                                //if (symH != null)
-                                {
-                                    if (highlight)
-                                    {
-                                        // Highlight the secondary symmetrical parts in a different colour
-                                        symPart.highlighter.ConstantOn(XKCDColors.Yellow);
-                                        if (!highlightedParts.Exists(x => x == symPart))
-                                        {
-
-                                            highlightedParts.Add(symPart);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        symPart.highlighter.ConstantOff();
-                                        if (highlightedParts.Exists(x => x == symPart))
-                                        {
-
-                                            if (clear) highlightedParts.Remove(symPart);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                //                }
-            }
-#if false
-            else
-            {
-                if (highlight)
-                {
-                    p.SetHighlight(true, false);
-                    if (!highlightedParts.Exists(x => x == p))
-                    {
-
-                        highlightedParts.Add(p);
-                    }
-                    if (symLock)
-                    {
-                        foreach (Part symPart in p.symmetryCounterparts)
-                        {
-                            symPart.SetHighlight(true, false);
-                            if (!highlightedParts.Exists(x => x == symPart))
-                            {
-
-                                highlightedParts.Add(symPart);
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    p.SetHighlight(false, false);
-                    if (highlightedParts.Exists(x => x == p))
-                    {
-
-                        if (clear) highlightedParts.Remove(p);
-                    }
-                    if (symLock)
-                    {
-                        foreach (Part symPart in p.symmetryCounterparts)
-                        {
-                            symPart.SetHighlight(false, false);
-                            if (highlightedParts.Exists(x => x == symPart))
-                            {
-
-                                if (clear) highlightedParts.Remove(symPart);
-                            }
-
+                            if (clear) highlightedParts.Remove(symPart);
                         }
                     }
                 }
             }
-#endif
         }
 
         private void clearHighlighting(List<Part> ap)
